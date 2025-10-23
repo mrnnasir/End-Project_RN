@@ -18,7 +18,7 @@ html {
 }
 
 body {
-  background-color: #222222;
+  background-color: white;
 }
 
 .title {
@@ -37,12 +37,18 @@ body {
 
 .set1, .set2 {
   text-align: center;
-  background-color: #222222;
-  border-color:magenta;
+  background-color: white;
+  border-color: greenyellow;
   border-style: solid;
   padding: 10px;
   flex: 1;
   border-radius: 10px;
+}
+
+.info {
+  font-weight: bold;
+  font-size: 20px;
+  color: Red;
 }
 
 .lClass, .fClass {
@@ -53,6 +59,7 @@ body {
   border-radius: 5px;
   font-weight: bold;
   font-size: 15px;
+  border-color: red;
 }
 
 .text {
@@ -60,7 +67,6 @@ body {
   height: 27px;
   border-radius: 5px;
   font-size: 15px;
-  background-color:;
 }
 
 .outputCatP, .mealNaP {
@@ -69,12 +75,14 @@ body {
 }
 
 .outputCatP {
-  color: aqua;
+  color: crimson;
 }
 
 .mealNaP {
-  color: greenyellow;
+  color: green;
 }
+
+
 /*
  * Remove text-shadow in selection highlight:
  * https://twitter.com/miketaylr/status/12228805301

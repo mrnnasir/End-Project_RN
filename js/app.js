@@ -62,7 +62,7 @@ mealCatList.addEventListener("click", function (){
   mealCategory.forEach(meal => {catList(count++ + '. ' + meal);}); //It will call the catList function to execute the operation
 })
 
-// -------------------- Function to display the popup modal --------------------
+//To display the popup modal---
 function showPopup(mealName, instructions) {
   // Get the popup modal element from HTML
   const modal = document.getElementById("popupModal");
@@ -96,7 +96,7 @@ function showPopup(mealName, instructions) {
 
 
 
-// -------------------- Function to display each meal item on the screen --------------------
+//To display each meal item on the screen---
 function printScreen(mealObj, index) {
   // Create a new <div> for each meal
   let mealDiv = document.createElement('div');
@@ -127,7 +127,7 @@ function printScreen(mealObj, index) {
 
 
 
-// -------------------- Event listener for "Show Filtered Category" button --------------------
+//To listen button function about the request---
 mealCat.addEventListener("click", function() {
   // Remove all previous meal elements to refresh the section
   let removeElement = document.getElementsByClassName('mealNaD');

@@ -34,78 +34,95 @@ function getUniCat() {
   return [...uniqueCat];//Since uniqueCat is a Set, we need to convert this to an Array by using Spread Operator
 }
 
-//To add the content in HTML
-function catList(msg) {
-  //Div will be created with class
-  let outputDiv = document.createElement("div");
-  outputDiv.classList.add("outputD");
 
-  //P-tag will be created with class
-  let outputP = document.createElement("p");
-  outputP.classList.add("outputCatP");
+// -------------------- Function to display the popup modal --------------------
+function showPopup(mealName, instructions) {
+  // Get the popup modal element from HTML
+  const modal = document.getElementById("popupModal");
 
-  //msg argument will be added to the body of html
-  outputP.textContent = msg;
-  outputDiv.appendChild(outputP);
-  output.append(outputDiv);
+  // Get elements inside the modal for title and text
+  const popupTitle = document.getElementById("popupTitle");
+  const popupText = document.getElementById("popupText");
+
+  // Get the "close" (×) button
+  const closePopup = document.getElementById("closePopup");
+
+  // Set the meal name as the title of the popup
+  popupTitle.textContent = mealName;
+
+  // Set the instructions as the popup content
+  popupText.textContent = instructions;
+
+  // Display the popup (default CSS keeps it hidden)
+  modal.style.display = "block";
+
+  // When user clicks the close (×) button, hide the popup
+  closePopup.onclick = () => modal.style.display = "none";
+
+  // When user clicks anywhere outside the popup box, close it as well
+  window.onclick = (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
 }
 
-//To listen button function about the request---
-mealCatList.addEventListener("click", function (){
-  //To remove the collection past elements from the class of a previously declared Div 'outputD'
-  let removeElement = document.getElementsByClassName("outputD");
-  [...removeElement].forEach(el => el.remove())
 
-  let count = 1;
-  mealCategory = getUniCat(); //List of categories will be stored in mealCategory
-  mealCategory.sort(); //Items in mealCategory will be alphabetically sorted
-  mealCategory.forEach(meal => {catList(count++ + '. ' + meal);}); //It will call the catList function to execute the operation
-})
 
-//Filtered Category---
-//To add the content in HTML
-function printScreen(msg) {
-  //Div will be created with class
+// -------------------- Function to display each meal item on the screen --------------------
+function printScreen(mealObj, index) {
+  // Create a new <div> for each meal
   let mealDiv = document.createElement('div');
-  mealDiv.classList.add('mealNaD');
+  mealDiv.classList.add('mealNaD'); // Add CSS class for styling
 
-  //P-tag will be created with class
+  // Create a <p> tag to show the meal name and category
   let mealP = document.createElement('p');
-  mealP.classList.add('mealNaP');
+  mealP.classList.add('mealNaP'); // Add CSS class for styling text
 
-  //msg argument will be added to the body of html
-  mealP.innerHTML = msg
-  mealDiv.appendChild(mealP)
-  mealSec.appendChild(mealDiv)
+  // Add meal name and category into HTML
+  // Make the meal name clickable with red color and underline
+  mealP.innerHTML = `${index}. <span class="mealName"
+      style="color: red; cursor: pointer; text-decoration: underline;">
+      ${mealObj.strMeal}</span>: ${mealObj.strCategory}`;
+
+  // Add click listener to the meal name span
+  // When clicked, open popup showing that meal's instructions
+  mealP.querySelector('.mealName').addEventListener('click', function() {
+    showPopup(mealObj.strMeal, mealObj.strInstructions);
+  });
+
+  // Add the <p> into the meal <div>
+  mealDiv.appendChild(mealP);
+
+  // Finally, add the meal <div> into the main meal section in HTML
+  mealSec.appendChild(mealDiv);
 }
 
-//To listen button function about the request---
+
+
+// -------------------- Event listener for "Show Filtered Category" button --------------------
 mealCat.addEventListener("click", function() {
-  //To remove the collection past elements from the class of a previously declared Div 'mealNaD'
+  // Remove all previous meal elements to refresh the section
   let removeElement = document.getElementsByClassName('mealNaD');
   [...removeElement].forEach(el => el.remove());
 
-  //Store user input in lower case
-  let userCat = catName.value.trim().toLowerCase()
+  // Get user input, convert it to lowercase, and remove extra spaces
+  let userCat = catName.value.trim().toLowerCase();
 
-  //Check inserted user category with listed category in fullMeal then store the matched items in filterCategory
+  // Filter all meals that match the entered category
   let filterCategory = fullMeal.filter(cat => cat.strCategory.toLowerCase() === userCat);
 
-  //Applied condition for user's convenience
-  if(userCat === '') {
-    printScreen('Oops! You forgot to enter category name. Please try again!');
+  // If input field is empty, show error popup
+  if (userCat === '') {
+    showPopup('Error', 'Oops! You forgot to enter category name. Please try again!');
   }
-  //filterCategory.length === 0 -> means the item is not in the list. Hence, 0.
-  //If inserted user category name is spelled wrong, it will not be in the list. So, length will render 0.
+  // If no meals match the entered category, show error popup
   else if (filterCategory.length === 0) {
-    printScreen(`Oops! <u>${userCat}</u> is a wrong name. Please enter a correct category name!`)
+    showPopup('Error', `Oops! "${userCat}" is not a valid category. Please try again.`);
   }
+  // Otherwise, display all meals for that category
   else {
-    let count = 1;
-    filterCategory.forEach(cat => {
-      //printScreen(count++ + '. ' + cat.strMeal + ': ' + cat.strCategory) --> General code
-      //To highlight the category within .js, I used style within span-tag
-      printScreen(`${count++}. ${cat.strMeal}: <span style="color: red;">${cat.strCategory}</span>`)
-    })
+    let count = 1; // Counter for numbering
+    filterCategory.forEach(cat => printScreen(cat, count++)); // Print each meal
   }
-})
+});

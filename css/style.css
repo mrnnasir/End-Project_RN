@@ -48,7 +48,7 @@ body {
 .info {
   font-weight: bold;
   font-size: 20px;
-  color: Red;
+  color: green;
 }
 
 .lClass, .fClass {
@@ -75,7 +75,7 @@ body {
 }
 
 .outputCatP {
-  color: crimson;
+  color: black;
 }
 
 .mealNaP {

@@ -34,6 +34,33 @@ function getUniCat() {
   return [...uniqueCat];//Since uniqueCat is a Set, we need to convert this to an Array by using Spread Operator
 }
 
+//To add the content in HTML
+function catList(msg) {
+  //Div will be created with class
+  let outputDiv = document.createElement("div");
+  outputDiv.classList.add("outputD");
+
+  //P-tag will be created with class
+  let outputP = document.createElement("p");
+  outputP.classList.add("outputCatP");
+
+  //msg argument will be added to the body of html
+  outputP.textContent = msg;
+  outputDiv.appendChild(outputP);
+  output.append(outputDiv);
+}
+
+//To listen button function about the request---
+mealCatList.addEventListener("click", function (){
+  //To remove the collection past elements from the class of a previously declared Div 'outputD'
+  let removeElement = document.getElementsByClassName("outputD");
+  [...removeElement].forEach(el => el.remove())
+
+  let count = 1;
+  mealCategory = getUniCat(); //List of categories will be stored in mealCategory
+  mealCategory.sort(); //Items in mealCategory will be alphabetically sorted
+  mealCategory.forEach(meal => {catList(count++ + '. ' + meal);}); //It will call the catList function to execute the operation
+})
 
 // -------------------- Function to display the popup modal --------------------
 function showPopup(mealName, instructions) {
